@@ -37,10 +37,11 @@ export default function SimpleProductCard({ product }: Props) {
           onClick={() =>
             cart.add({
               productId: product.slug,
-              name: product.name,
+              nameSnapshot: product.name, // 👈 FIX
               priceCents: product.priceCents,
               quantity: 1,
               imageUrl: product.image,
+              customizations: {}, // 👈 FIX
             })
           }
           className="rounded-xl bg-green-600 px-4 py-2 text-white text-sm hover:opacity-90"

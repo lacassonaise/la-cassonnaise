@@ -72,11 +72,10 @@ export default function PizzaConfigurator({ pizza }: { pizza: Pizza }) {
           <button
             key={s}
             onClick={() => setSize(s)}
-            className={`flex-1 rounded-xl px-3 py-2 text-sm font-medium transition ${
-              size === s
+            className={`flex-1 rounded-xl px-3 py-2 text-sm font-medium transition ${size === s
                 ? "bg-[#1F5C3A] text-white"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
+              }`}
           >
             {s === "senior" ? "Senior" : "Mega"}
           </button>
@@ -93,11 +92,10 @@ export default function PizzaConfigurator({ pizza }: { pizza: Pizza }) {
             <button
               key={i}
               onClick={() => toggleRemove(i)}
-              className={`rounded-full px-3 py-1 text-xs transition ${
-                removedIngredients.includes(i)
+              className={`rounded-full px-3 py-1 text-xs transition ${removedIngredients.includes(i)
                   ? "bg-red-100 text-red-700 line-through"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
+                }`}
             >
               {i}
             </button>
@@ -125,11 +123,10 @@ export default function PizzaConfigurator({ pizza }: { pizza: Pizza }) {
               <button
                 key={i}
                 onClick={() => toggleExtra(i)}
-                className={`rounded-full px-3 py-1 text-xs transition ${
-                  extras.includes(i)
+                className={`rounded-full px-3 py-1 text-xs transition ${extras.includes(i)
                     ? "bg-[#1F5C3A] text-white"
                     : "bg-white text-gray-700 hover:bg-gray-200"
-                }`}
+                  }`}
               >
                 {i}
               </button>
@@ -163,7 +160,7 @@ export default function PizzaConfigurator({ pizza }: { pizza: Pizza }) {
           onClick={() =>
             cart.add({
               productId: pizza.slug,
-              name: pizza.name,
+              nameSnapshot: pizza.name, // 👈 FIX
               priceCents,
               quantity: 1,
               imageUrl: pizza.image,

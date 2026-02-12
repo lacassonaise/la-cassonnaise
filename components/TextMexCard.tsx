@@ -35,10 +35,11 @@ export default function TextMexCard({ item }: { item: TextMexItem }) {
             onClick={() =>
               cart.add({
                 productId: item.id,
-                name: item.name,
+                nameSnapshot: item.name, // 👈 FIX
                 priceCents: item.price,
                 quantity: 1,
                 imageUrl: item.image,
+                customizations: {}, // 👈 FIX
               })
             }
             className="rounded-xl bg-[#095f30] px-4 py-2 text-white font-bold

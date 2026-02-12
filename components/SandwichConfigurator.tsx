@@ -49,22 +49,20 @@ export default function SandwichConfigurator({
       <div className="flex gap-2">
         <button
           onClick={() => setVariant("menu")}
-          className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold ${
-            variant === "menu"
+          className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold ${variant === "menu"
               ? "bg-[#1F5C3A] text-white"
               : "bg-gray-100"
-          }`}
+            }`}
         >
           Menu
         </button>
 
         <button
           onClick={() => setVariant("seul")}
-          className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold ${
-            variant === "seul"
+          className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold ${variant === "seul"
               ? "bg-[#1F5C3A] text-white"
               : "bg-gray-100"
-          }`}
+            }`}
         >
           Seul
         </button>
@@ -88,11 +86,10 @@ export default function SandwichConfigurator({
             <button
               key={i}
               onClick={() => toggleRemove(i)}
-              className={`rounded-xl px-3 py-1 text-xs transition ${
-                removed.includes(i)
+              className={`rounded-xl px-3 py-1 text-xs transition ${removed.includes(i)
                   ? "bg-red-100 text-red-600 line-through"
                   : "bg-gray-100 hover:bg-gray-200"
-              }`}
+                }`}
             >
               {i}
             </button>
@@ -108,7 +105,7 @@ export default function SandwichConfigurator({
           onClick={() =>
             cart.add({
               productId: sandwich.slug,
-              name: sandwich.name,
+              nameSnapshot: sandwich.name, // 👈 FIX
               priceCents,
               quantity: 1,
               imageUrl: sandwich.image,

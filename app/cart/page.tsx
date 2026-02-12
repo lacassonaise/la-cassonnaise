@@ -21,17 +21,17 @@ export default function CartPage() {
             Taille : {item.customizations.size}
           </div>
 
-          {item.customizations.removedIngredients?.length > 0 && (
+          {(item.customizations.removedIngredients?.length ?? 0) > 0 && (
             <div className="text-sm text-red-600">
               ❌ Sans :
-              {item.customizations.removedIngredients.join(", ")}
+              {item.customizations.removedIngredients?.join(", ")}
             </div>
           )}
 
-          {item.customizations.extraIngredients?.length > 0 && (
+          {(item.customizations.extraIngredients?.length ?? 0) > 0 && (
             <div className="text-sm text-green-700">
               ➕ Suppléments :
-              {item.customizations.extraIngredients.map((e) => (
+              {item.customizations.extraIngredients?.map((e) => (
                 <div key={e.name}>
                   {e.name} (+{(e.priceCents / 100).toFixed(2)} €)
                 </div>

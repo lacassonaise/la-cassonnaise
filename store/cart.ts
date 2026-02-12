@@ -8,6 +8,7 @@ export type CartItem = {
   nameSnapshot: string;
   quantity: number;
   priceCents: number;
+  imageUrl?: string; // 👈 AJOUT
 
   customizations: {
     size?: "senior" | "mega";
@@ -19,6 +20,18 @@ export type CartItem = {
       priceCents: number;
     }[];
 
+    meats?: string[]; // 👈 AJOUT
+    exclusive?: { type: string }; // 👈 AJOUT
+    panini?: any; // 👈 AJOUT
+    pizzawich?: any; // 👈 AJOUT
+    refreshment?: any; // 👈 AJOUT
+    salade?: any; // 👈 AJOUT
+    sauces?: string[]; // 👈 AJOUT
+    menu?: any; // 👈 AJOUT
+    ingredients?: string[]; // 👈 AJOUT
+    cheesy?: boolean; // 👈 AJOUT
+    extras?: string[]; // 👈 AJOUT
+    variant?: string; // 👈 AJOUT
     takeawayOnly?: boolean; // 👈 IMPORTANT
   };
 };

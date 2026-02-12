@@ -42,9 +42,8 @@ export default function PizzaBaseSection({ base, title, pizzas }: Props) {
               setRemoved([]);
               setExtras([]);
             }}
-            className={`rounded-xl border px-3 py-2 text-sm ${
-              pizza.slug === p.slug ? "bg-black text-white" : ""
-            }`}
+            className={`rounded-xl border px-3 py-2 text-sm ${pizza.slug === p.slug ? "bg-black text-white" : ""
+              }`}
           >
             {p.name}
           </button>
@@ -53,13 +52,12 @@ export default function PizzaBaseSection({ base, title, pizzas }: Props) {
 
       {/* TAILLE */}
       <div className="flex gap-2">
-        {(["senior","mega"] as const).map(s => (
+        {(["senior", "mega"] as const).map(s => (
           <button
             key={s}
             onClick={() => setSize(s)}
-            className={`rounded-xl border px-3 py-2 ${
-              size === s ? "bg-black text-white" : ""
-            }`}
+            className={`rounded-xl border px-3 py-2 ${size === s ? "bg-black text-white" : ""
+              }`}
           >
             {s}
           </button>
@@ -76,9 +74,8 @@ export default function PizzaBaseSection({ base, title, pizzas }: Props) {
                 r.includes(i) ? r.filter(x => x !== i) : [...r, i]
               )
             }
-            className={`rounded-xl border px-3 py-1 text-sm ${
-              removed.includes(i) ? "line-through bg-red-100" : ""
-            }`}
+            className={`rounded-xl border px-3 py-1 text-sm ${removed.includes(i) ? "line-through bg-red-100" : ""
+              }`}
           >
             {i}
           </button>
@@ -95,9 +92,8 @@ export default function PizzaBaseSection({ base, title, pizzas }: Props) {
                 e.includes(i) ? e.filter(x => x !== i) : [...e, i]
               )
             }
-            className={`rounded-xl border px-3 py-2 ${
-              extras.includes(i) ? "bg-black text-white" : ""
-            }`}
+            className={`rounded-xl border px-3 py-2 ${extras.includes(i) ? "bg-black text-white" : ""
+              }`}
           >
             {i}
           </button>
@@ -109,7 +105,7 @@ export default function PizzaBaseSection({ base, title, pizzas }: Props) {
         onClick={() =>
           cart.add({
             productId: pizza.slug,
-            name: pizza.name,
+            nameSnapshot: pizza.name, // 👈 FIX
             quantity: 1,
             priceCents: price,
             customizations: {
