@@ -15,10 +15,10 @@ export default function AdminLoyaltyPage() {
 
   useEffect(() => {
     supabase
-      .from("loyalty_accounts")
-      .select("user_id, points, tier, updated_at")
+      .from("loyalty_points")
+      .select("user_id, points, updated_at")
       .order("points", { ascending: false })
-      .then(({ data }) => setRows(data ?? []));
+      .then(({ data }) => setRows(data as any ?? []));
   }, []);
 
   return (

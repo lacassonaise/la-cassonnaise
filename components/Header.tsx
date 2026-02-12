@@ -85,14 +85,18 @@ export default function Header() {
           {/* MENU MOBILE */}
           <div className="fixed top-[96px] left-0 right-0 z-50 md:hidden bg-[#081F33] shadow-lg">
             <nav className="flex flex-col items-center gap-1 py-4">
-              {["menu", "contact", "compte"].map((item) => (
+              {[
+                { label: "Menu", href: "/menu" },
+                { label: "Contact", href: "/contact" },
+                { label: "Mon compte", href: "/account" },
+              ].map((item) => (
                 <Link
-                  key={item}
-                  href={`/${item}`}
+                  key={item.href}
+                  href={item.href}
                   onClick={() => setOpen(false)}
                   className="w-full py-3 text-center text-white font-semibold hover:bg-white/10"
                 >
-                  {item === "menu" ? "Menu" : item === "contact" ? "Contact" : "Mon compte"}
+                  {item.label}
                 </Link>
               ))}
             </nav>

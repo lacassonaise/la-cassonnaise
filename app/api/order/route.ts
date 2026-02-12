@@ -10,8 +10,6 @@ export async function POST(req: Request) {
     console.log("➡️ API /order appelée");
 
     const body = await req.json();
-    console.log("📦 body reçu :", body);
-
     const {
       items,
       totalCents,
@@ -24,6 +22,8 @@ export async function POST(req: Request) {
       postalCode,
       userId,
     } = body;
+
+    console.log("📦 Body reçu (userId:", userId, ")");
 
     console.log("🧾 items :", items);
 
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
       .select()
       .single();
 
-    console.log("🧾 résultat insert order:", order, error);
+    console.log("🧾 Résultat insert order:", order?.id, "Error:", error?.message);
 
     if (error) throw error;
 

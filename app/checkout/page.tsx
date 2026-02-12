@@ -157,7 +157,7 @@ export default function CheckoutPage() {
         userId: currentUserId,
       };
 
-      console.log("📤 Payload envoyé:", orderPayload);
+      console.log("📤 Payload envoyé (userId link):", orderPayload);
 
       const orderRes = await fetch("/api/order", {
         method: "POST",

@@ -12,7 +12,7 @@ import { OrderTicket } from "@/components/OrderTicket";
    TYPES (DB-ALIGNED)
 ===================== */
 
-type KitchenStatus = "pending" | "paid" | "preparing" | "ready";
+type KitchenStatus = "pending" | "paid" | "preparing" | "ready" | "completed";
 
 type OrderItem = {
   name_snapshot: string;
@@ -92,7 +92,7 @@ export default function DashboardPage() {
           customizations_json
         )
       `)
-      .in("status", ["pending", "paid", "preparing", "ready"])
+      .in("status", ["pending", "paid", "preparing", "ready", "completed"])
       .order("created_at", { ascending: false });
 
     if (data) setOrders(data as Order[]);
@@ -183,8 +183,8 @@ export default function DashboardPage() {
               ? prev.map((o) => (o.id === data.id ? (data as Order) : o))
               : [data as Order, ...prev];
 
-            // Ne garder que les commandes actives dans le state principal
-            return newList.filter(o => ["pending", "paid", "preparing", "ready"].includes(o.status));
+            // Ne garder que les commandes actives et récentes dans le state
+            return newList.filter(o => ["pending", "paid", "preparing", "ready", "completed"].includes(o.status));
           });
 
           // Notification sonore et impression auto pour nouvelle commande payée
@@ -207,8 +207,32 @@ export default function DashboardPage() {
   ===================== */
 
   async function updateStatus(orderId: string, status: KitchenStatus) {
-    const { error } = await supabase.from("orders").update({ status }).eq("id", orderId);
-    if (error) alert("Erreur lors de la mise à jour du statut");
+    console.log("🔄 Mise à jour du statut:", orderId, "->", status);
+
+    // 1. Optimistic Update (mise à jour immédiate de l'UI)
+    const previousOrders = [...orders];
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status } : o));
+
+    // 2. DB Update
+    const { error } = await supabase
+      .from("orders")
+      .update({ status })
+      .eq("id", orderId);
+
+    if (error) {
+      console.error("❌ Erreur de mise à jour:", error);
+      alert("Erreur lors de la mise à jour : " + error.message);
+      // Rollback si erreur
+      setOrders(previousOrders);
+    } else {
+      console.log("✅ Statut mis à jour avec succès");
+
+      // Si on termine la commande, on la retire parfois manuellement du state cuisine
+      // si le realtime est capricieux
+      if (status === "completed" && view === "kitchen") {
+        setOrders(prev => prev.filter(o => o.id !== orderId));
+      }
+    }
   }
 
   function handleManualPrint(order: Order) {
@@ -223,12 +247,12 @@ export default function DashboardPage() {
   ===================== */
 
   const kitchenOrders = useMemo(
-    () => orders.filter((o) => o.status !== "ready"),
+    () => orders.filter((o) => o.status !== "completed"),
     [orders]
   );
 
   const historyOrders = useMemo(
-    () => orders.filter((o) => o.status === "ready"),
+    () => orders.filter((o) => o.status === "completed"),
     [orders]
   );
 
@@ -315,11 +339,14 @@ export default function DashboardPage() {
                   </button>
                   <div className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider ${order.status === 'paid' ? 'bg-blue-50 text-blue-700' :
                     order.status === 'preparing' ? 'bg-orange-50 text-orange-700' :
-                      'bg-green-50 text-green-700'
+                      order.status === 'ready' ? 'bg-emerald-50 text-emerald-700' :
+                        order.status === 'completed' ? 'bg-gray-100 text-gray-500' :
+                          'bg-gray-50 text-gray-400'
                     }`}>
-                    {order.status === 'pending' ? 'Attente Paiement' :
+                    {order.status === 'pending' ? 'En Attente' :
                       order.status === 'paid' ? 'Payé' :
-                        order.status === 'preparing' ? 'Préparation' : 'Prête'}
+                        order.status === 'preparing' ? 'Préparation' :
+                          order.status === 'ready' ? 'Prête' : 'Terminée'}
                   </div>
                 </div>
               </div>
@@ -421,29 +448,49 @@ export default function DashboardPage() {
                 )}
 
                 {view === "kitchen" && (
-                  <div className="flex gap-3">
-                    {order.status === "pending" && (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-3">
+                      {order.status === "pending" && (
+                        <button
+                          onClick={() => updateStatus(order.id, "paid")}
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                        >
+                          Confirmer Paiement
+                        </button>
+                      )}
+                      {order.status === "paid" && (
+                        <button
+                          onClick={() => updateStatus(order.id, "preparing")}
+                          className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-orange-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                        >
+                          Commencer
+                        </button>
+                      )}
+                      {order.status === "preparing" && (
+                        <button
+                          onClick={() => updateStatus(order.id, "ready")}
+                          className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                        >
+                          Prête
+                        </button>
+                      )}
+                      {order.status === "ready" && (
+                        <button
+                          onClick={() => updateStatus(order.id, "completed")}
+                          className="flex-1 bg-gray-900 hover:bg-black text-white font-black py-4 rounded-2xl shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                        >
+                          Terminer
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Shortcut to finish directly if already preparing or paid */}
+                    {(order.status === "paid" || order.status === "preparing" || order.status === "pending") && (
                       <button
-                        onClick={() => updateStatus(order.id, "paid")}
-                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                        onClick={() => updateStatus(order.id, "completed")}
+                        className="w-full bg-gray-100 hover:bg-gray-200 text-gray-500 font-bold py-2 rounded-xl transition-all text-[10px] uppercase tracking-widest"
                       >
-                        Confirmer Paiement
-                      </button>
-                    )}
-                    {order.status === "paid" && (
-                      <button
-                        onClick={() => updateStatus(order.id, "preparing")}
-                        className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-orange-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
-                      >
-                        Commencer
-                      </button>
-                    )}
-                    {order.status === "preparing" && (
-                      <button
-                        onClick={() => updateStatus(order.id, "ready")}
-                        className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
-                      >
-                        Prête
+                        Terminer Directement
                       </button>
                     )}
                   </div>

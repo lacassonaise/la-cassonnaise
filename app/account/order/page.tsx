@@ -9,6 +9,7 @@ type Order = {
   created_at: string;
   status: string;
   total_cents: number;
+  mode?: string;
 };
 
 export default function MyOrdersPage() {
@@ -16,13 +17,19 @@ export default function MyOrdersPage() {
 
   /* Charger commandes */
   useEffect(() => {
-    supabase
-      .from("orders")
-      .select("id, created_at, status, total_cents")
-      .order("created_at", { ascending: false })
-      .then(({ data }: { data: Order[] | null }) => {
-        if (data) setOrders(data);
-      });
+    async function load() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data } = await supabase
+        .from("orders")
+        .select("id, created_at, status, total_cents, mode, order_items(name_snapshot, quantity, price_cents, customizations_json)")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (data) setOrders(data as any);
+    }
+    load();
   }, []);
 
   /* Temps réel */
@@ -57,13 +64,22 @@ export default function MyOrdersPage() {
             key={o.id}
             className="rounded-xl border bg-white p-4"
           >
-            <div className="flex justify-between">
-              <div className="font-semibold">
-                Commande #{o.id.slice(0, 6)}
+            <div className="flex justify-between items-start">
+              <div className="flex flex-col">
+                <span className="font-bold text-gray-900">Commande #{o.id.slice(0, 8)}</span>
+                <span className="text-[10px] text-gray-400 font-medium">
+                  {new Date(o.created_at).toLocaleString("fr-FR")}
+                </span>
               </div>
-              <div className="text-sm text-gray-500">
-                {new Date(o.created_at).toLocaleString("fr-FR")}
-              </div>
+              <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${["paid", "preparing", "ready", "completed"].includes(o.status)
+                  ? "bg-emerald-50 text-emerald-600"
+                  : "bg-orange-50 text-orange-600"
+                }`}>
+                {o.status === "paid" ? "Payée" :
+                  o.status === "preparing" ? "En préparation" :
+                    o.status === "ready" ? "Prête" :
+                      o.status === "completed" ? "Terminée" : "En attente"}
+              </span>
             </div>
 
             <div className="mt-3 pt-3 border-t space-y-3">
