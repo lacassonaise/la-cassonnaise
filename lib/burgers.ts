@@ -33,7 +33,7 @@ export const BURGERS: Burger[] = [
       seul: 600,
       menu: 750,
     },
-    image: "/burgers/le cheese.jpg",
+    image: "/icecreams/burgers/le cheese.jpg",
   },
 
   {
@@ -50,7 +50,7 @@ export const BURGERS: Burger[] = [
       seul: 700,
       menu: 850,
     },
-    image: "/burgers/doublecheese.jpg",
+    image: "/icecreams/burgers/doublecheese.jpg",
   },
 
   {
@@ -67,7 +67,7 @@ export const BURGERS: Burger[] = [
       seul: 850,
       menu: 1000,
     },
-    image: "/burgers/le chicken.webp",
+    image: "/icecreams/burgers/le chicken.webp",
   },
 
   {
@@ -84,7 +84,7 @@ export const BURGERS: Burger[] = [
       seul: 800,
       menu: 950,
     },
-    image: "/burgers/le gourmet.jpg",
+    image: "/icecreams/burgers/le gourmet.jpg",
   },
 
   {
@@ -102,7 +102,7 @@ export const BURGERS: Burger[] = [
       seul: 800,
       menu: 950,
     },
-    image: "/burgers/le country.jpg",
+    image: "/icecreams/burgers/le country.jpg",
   },
 
   {
@@ -119,7 +119,7 @@ export const BURGERS: Burger[] = [
       seul: 850,
       menu: 1000,
     },
-    image: "/burgers/le big.jpg",
+    image: "/icecreams/burgers/le big.jpg",
   },
 
   {
@@ -136,22 +136,22 @@ export const BURGERS: Burger[] = [
       seul: 800,
       menu: 950,
     },
-    image: "/burgers/le fish.jpg",
+    image: "/icecreams/burgers/le fish.jpg",
   },
-/*
-  {
-    slug: "menu-kids",
-    name: "Menu Kids",
-    ingredients: [
-      "Mini burger",
-      "Nuggets",
-      "Frites",
-      "Boisson",
-    ],
-    prices: {
-      seul: 600,
-      menu: 600, // kids = menu direct
-    },
-    image: "/burgers/menu-kids.jpg",
-  },*/
+  /*
+    {
+      slug: "menu-kids",
+      name: "Menu Kids",
+      ingredients: [
+        "Mini burger",
+        "Nuggets",
+        "Frites",
+        "Boisson",
+      ],
+      prices: {
+        seul: 600,
+        menu: 600, // kids = menu direct
+      },
+      image: "/burgers/menu-kids.jpg",
+    },*/
 ];
