@@ -33,7 +33,7 @@ export const BURGERS: Burger[] = [
       seul: 600,
       menu: 750,
     },
-    image: "/icecreams/burgers/le cheese.jpg",
+    image: "/burgers/le cheese.jpg",
   },
 
   {
@@ -50,7 +50,7 @@ export const BURGERS: Burger[] = [
       seul: 700,
       menu: 850,
     },
-    image: "/icecreams/burgers/doublecheese.jpg",
+    image: "/burgers/doublecheese.jpg",
   },
 
   {
@@ -67,7 +67,7 @@ export const BURGERS: Burger[] = [
       seul: 850,
       menu: 1000,
     },
-    image: "/icecreams/burgers/le chicken.webp",
+    image: "/burgers/le chicken.webp",
   },
 
   {
@@ -84,7 +84,7 @@ export const BURGERS: Burger[] = [
       seul: 800,
       menu: 950,
     },
-    image: "/icecreams/burgers/le gourmet.jpg",
+    image: "/burgers/le gourmet.jpg",
   },
 
   {
@@ -102,7 +102,7 @@ export const BURGERS: Burger[] = [
       seul: 800,
       menu: 950,
     },
-    image: "/icecreams/burgers/le country.jpg",
+    image: "/burgers/le country.jpg",
   },
 
   {
@@ -119,7 +119,7 @@ export const BURGERS: Burger[] = [
       seul: 850,
       menu: 1000,
     },
-    image: "/icecreams/burgers/le big.jpg",
+    image: "/burgers/le big.jpg",
   },
 
   {
@@ -136,7 +136,7 @@ export const BURGERS: Burger[] = [
       seul: 800,
       menu: 950,
     },
-    image: "/icecreams/burgers/le fish.jpg",
+    image: "/burgers/le fish.jpg",
   },
   /*
     {

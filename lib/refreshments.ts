@@ -16,21 +16,21 @@ export const REFRESHMENTS: RefreshmentItem[] = [
     name: "Tiramisu",
     price: 300,
     category: "dessert",
-    image: "/paninis/boissons/tiramissu.jpg",
+    image: "/boissons/tiramissu.jpg",
   },
   {
     id: "tarte-daim",
     name: "Tarte au Daim",
     price: 300,
     category: "dessert",
-    image: "/paninis/boissons/tarte-daim.jpg",
+    image: "/boissons/tarte-daim.jpg",
   },
   {
     id: "panini-nutella",
     name: "Panini Nutella",
     price: 500,
     category: "dessert",
-    image: "/paninis/boissons/nutella.jpg",
+    image: "/boissons/nutella.jpg",
   },
 
   /* -------- GLACES -------- */
@@ -58,7 +58,7 @@ export const REFRESHMENTS: RefreshmentItem[] = [
     price: 150,
     category: "drink",
     meta: "33cl",
-    image: "/paninis/boissons/coca1.jpg",
+    image: "/boissons/coca1.jpg",
   },
   {
     id: "eau-50cl",
@@ -66,6 +66,6 @@ export const REFRESHMENTS: RefreshmentItem[] = [
     price: 150,
     category: "drink",
     meta: "50cl",
-    image: "/paninis/boissons/eau.jpg",
+    image: "/boissons/eau.jpg",
   },
 ];

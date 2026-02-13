@@ -80,6 +80,9 @@ export async function POST(req: Request) {
       apiVersion: "2024-11-20.acacia" as any,
     });
 
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    console.log("🔗 Site URL used:", siteUrl);
+
     console.log("🧮 création session stripe");
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -98,8 +101,8 @@ export async function POST(req: Request) {
         orderId: order.id,
         userId: userId ?? ""
       },
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?orderId=${order.id}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/checkout`,
+      success_url: `${siteUrl}/success?orderId=${order.id}`,
+      cancel_url: `${siteUrl}/checkout`,
     });
 
     console.log("✅ Session Stripe créée avec succès:", session.id);
