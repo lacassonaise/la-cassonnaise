@@ -11,8 +11,8 @@ export default function MenuPage() {
     hasMenuSection: categories.map((cat) => ({
       "@type": "MenuSection",
       name: cat.label,
-      image: `https://la-cassonnaise.vercel.app${cat.image}`,
-      url: `https://la-cassonnaise.vercel.app/menu/${cat.slug}`,
+      image: `https://lacassonaise.fr${cat.image}`,
+      url: `https://lacassonaise.fr/menu/${cat.slug}`,
     })),
   };
 

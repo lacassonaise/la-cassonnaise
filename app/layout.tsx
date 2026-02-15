@@ -18,9 +18,9 @@ const restaurantSchema = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
   name: "Cassonnaise",
-  image: "https://la-cassonnaise.vercel.app/logo.webp",
-  "@id": "https://la-cassonnaise.vercel.app",
-  url: "https://la-cassonnaise.vercel.app",
+  image: "https://lacassonaise.fr/logo.webp",
+  "@id": "https://lacassonaise.fr",
+  url: "https://lacassonaise.fr",
   telephone: "0982282214",
   address: {
     "@type": "PostalAddress",
@@ -56,7 +56,7 @@ const restaurantSchema = {
   ],
   servesCuisine: ["Pizza", "Tacos", "Burger", "Fast Food"],
   priceRange: "€€",
-  menu: "https://la-cassonnaise.vercel.app/menu",
+  menu: "https://lacassonaise.fr/menu",
 };
 
 export default function RootLayout({
