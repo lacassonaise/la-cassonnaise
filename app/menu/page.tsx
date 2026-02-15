@@ -1,9 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
+import JsonLd from "@/components/JsonLd";
 
 export default function MenuPage() {
+  const menuSchema = {
+    "@context": "https://schema.org",
+    "@type": "Menu",
+    name: "Menu Cassonnaise",
+    description: "Découvrez nos Pizzas, Burgers, Tacos et plus.",
+    hasMenuSection: categories.map((cat) => ({
+      "@type": "MenuSection",
+      name: cat.label,
+      image: `https://la-cassonnaise.vercel.app${cat.image}`,
+      url: `https://la-cassonnaise.vercel.app/menu/${cat.slug}`,
+    })),
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-10 space-y-16">
+      <JsonLd data={menuSchema} />
 
       {/* =====================
           CATEGORIES
