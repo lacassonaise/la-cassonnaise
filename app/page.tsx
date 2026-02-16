@@ -24,8 +24,15 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          <div className="overflow-hidden rounded-2xl">
-            <img src="/categories/hero.jpg" alt="Cassonnaise" className="h-64 w-full object-cover md:h-80" />
+          <div className="relative h-64 w-full overflow-hidden rounded-2xl md:h-80">
+            <Image
+              src="/categories/hero.jpg"
+              alt="Cassonnaise"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </div>
         </div>
       </section>
@@ -72,62 +79,62 @@ export default function HomePage() {
         </div>
       </section>
 
-   
-     {/* EXCLUSIFS */}
-<section>
-  <h2 className="text-xl font-bold text-[#0B2A45]">
-    Nos offres & exclusifs
-  </h2>
 
-  <p className="mt-1 text-sm text-gray-600">
-    Menus, offres spéciales et incontournables
-  </p>
+      {/* EXCLUSIFS */}
+      <section>
+        <h2 className="text-xl font-bold text-[#0B2A45]">
+          Nos offres & exclusifs
+        </h2>
 
-  <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <p className="mt-1 text-sm text-gray-600">
+          Menus, offres spéciales et incontournables
+        </p>
 
-    {exclusives.map((item) => (
-      <Link
-        key={item.name}
-        href={item.link}
-        className="group relative overflow-hidden rounded-2xl bg-white shadow-sm transition hover:shadow-md"
-      >
-        {/* IMAGE */}
-        <div className="relative h-38 w-full">
-          <Image
-            src={item.image}
-            alt={item.name}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+          {exclusives.map((item) => (
+            <Link
+              key={item.name}
+              href={item.link}
+              className="group relative overflow-hidden rounded-2xl bg-white shadow-sm transition hover:shadow-md"
+            >
+              {/* IMAGE */}
+              <div className="relative h-38 w-full">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+
+              {/* BADGE */}
+              {item.badge && (
+                <span className="absolute top-2 left-2 rounded-full bg-[#1F5C3A] px-2 py-0.5 text-[10px] font-bold text-white">
+                  {item.badge}
+                </span>
+              )}
+
+              {/* CONTENU */}
+              <div className="p-4">
+                <div className="text-sm font-semibold text-gray-900">
+                  {item.name}
+                </div>
+
+                <div className="mt-1 text-xs text-gray-600">
+                  {item.hint}
+                </div>
+
+                <div className="mt-3 text-xs font-semibold text-[#C97A3A]">
+                  Découvrir →
+                </div>
+              </div>
+            </Link>
+          ))}
+
         </div>
-
-        {/* BADGE */}
-        {item.badge && (
-          <span className="absolute top-2 left-2 rounded-full bg-[#1F5C3A] px-2 py-0.5 text-[10px] font-bold text-white">
-            {item.badge}
-          </span>
-        )}
-
-        {/* CONTENU */}
-        <div className="p-4">
-          <div className="text-sm font-semibold text-gray-900">
-            {item.name}
-          </div>
-
-          <div className="mt-1 text-xs text-gray-600">
-            {item.hint}
-          </div>
-
-          <div className="mt-3 text-xs font-semibold text-[#C97A3A]">
-            Découvrir →
-          </div>
-        </div>
-      </Link>
-    ))}
-
-  </div>
-</section>
+      </section>
     </div>
   );
 }
@@ -144,7 +151,7 @@ const categories = [
   { slug: "sandwiches", label: "Sandwiches", image: "/categories/sandwich.jpg" },
   { slug: "paninis", label: "Paninis", image: "/categories/panini.jpg" },
   { slug: "salades", label: "Salades", image: "/categories/salades.jpg" },
- 
+
   { slug: "assiettes", label: "Assiettes", image: "/categories/assiette.jpg" },
   { slug: "pizzawichs", label: "Pizzawichs", image: "/categories/pizzawichs.jpg" },
   { slug: "refreshments", label: "Desserts / Glaces / Boissons", image: "/categories/dessert.jpg" }
@@ -184,7 +191,7 @@ const exclusives = [
     name: "Pizza base mozzarella",
     link: "/menu/exclusives/pizza-mozza",
     image: "/categories/mozza.jpg",
-    
+
   },
 ];
 
