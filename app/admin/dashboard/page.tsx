@@ -258,6 +258,11 @@ export default function DashboardPage() {
 
   const displayed = view === "kitchen" ? kitchenOrders : historyOrders;
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push("/login");
+  }
+
   /* =====================
      RENDER
   ===================== */
@@ -273,7 +278,15 @@ export default function DashboardPage() {
       <div className="mb-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 italic">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
           <div>
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight">ADMINISTRATION</h1>
+            <div className="flex items-center gap-4">
+              <h1 className="text-3xl font-black text-gray-900 tracking-tight">ADMINISTRATION</h1>
+              <button
+                onClick={handleLogout}
+                className="text-xs font-bold text-red-600 hover:text-red-800 underline uppercase tracking-wider"
+              >
+                (Se déconnecter)
+              </button>
+            </div>
             <p className="text-gray-500 text-sm font-medium">Gestion globale du restaurant</p>
           </div>
 
