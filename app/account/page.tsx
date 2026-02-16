@@ -87,6 +87,7 @@ export default function ComptePage() {
         .from("orders")
         .select("id, created_at, total_cents, status, mode")
         .eq("user_id", user.id)
+        .neq("status", "pending") // On ne montre que les payées
         .order("created_at", { ascending: false });
 
       setOrders(ordersData || []);
