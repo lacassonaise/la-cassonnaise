@@ -25,6 +25,7 @@ export default function MyOrdersPage() {
         .from("orders")
         .select("id, created_at, status, total_cents, mode, order_items(name_snapshot, quantity, price_cents, customizations_json)")
         .eq("user_id", user.id)
+        .neq("status", "pending") // On cache les commandes non payées
         .order("created_at", { ascending: false });
 
       if (data) setOrders(data as any);
@@ -72,8 +73,8 @@ export default function MyOrdersPage() {
                 </span>
               </div>
               <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${["paid", "preparing", "ready", "completed"].includes(o.status)
-                  ? "bg-emerald-50 text-emerald-600"
-                  : "bg-orange-50 text-orange-600"
+                ? "bg-emerald-50 text-emerald-600"
+                : "bg-orange-50 text-orange-600"
                 }`}>
                 {o.status === "paid" ? "Payée" :
                   o.status === "preparing" ? "En préparation" :

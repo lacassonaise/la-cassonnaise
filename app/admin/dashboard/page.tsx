@@ -92,7 +92,7 @@ export default function DashboardPage() {
           customizations_json
         )
       `)
-      .in("status", ["pending", "paid", "preparing", "ready", "completed"])
+      .in("status", ["paid", "preparing", "ready", "completed"]) // Pas de "pending" -> on veut que les payées
       .order("created_at", { ascending: false });
 
     if (data) setOrders(data as Order[]);
@@ -183,12 +183,12 @@ export default function DashboardPage() {
               ? prev.map((o) => (o.id === data.id ? (data as Order) : o))
               : [data as Order, ...prev];
 
-            // Ne garder que les commandes actives et récentes dans le state
-            return newList.filter(o => ["pending", "paid", "preparing", "ready", "completed"].includes(o.status));
+            // Ne garder que les commandes actives et récentes dans le state (sans pending)
+            return newList.filter(o => ["paid", "preparing", "ready", "completed"].includes(o.status));
           });
 
           // Notification sonore et impression auto pour nouvelle commande payée
-          if (payload.eventType === "INSERT" && (data.status === "paid" || data.status === "pending")) {
+          if (payload.eventType === "INSERT" && data.status === "paid") {
             playNotification();
             setPrintOrder(data as Order);
             setTimeout(() => window.print(), 500);
