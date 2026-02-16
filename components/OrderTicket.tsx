@@ -21,6 +21,9 @@ export function OrderTicket({ order }: { order: Order }) {
         <div>
           {new Date(order.created_at).toLocaleString("fr-FR")}
         </div>
+        <div style={{ marginTop: '5px', fontWeight: 'bold', border: '2px solid black', padding: '2px 5px' }}>
+          PAYÉ ✅
+        </div>
       </div>
 
       <hr className="ticket__hr" />

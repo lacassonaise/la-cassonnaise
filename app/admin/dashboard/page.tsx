@@ -337,16 +337,21 @@ export default function DashboardPage() {
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                   </button>
-                  <div className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider ${order.status === 'paid' ? 'bg-blue-50 text-blue-700' :
-                    order.status === 'preparing' ? 'bg-orange-50 text-orange-700' :
-                      order.status === 'ready' ? 'bg-emerald-50 text-emerald-700' :
-                        order.status === 'completed' ? 'bg-gray-100 text-gray-500' :
-                          'bg-gray-50 text-gray-400'
-                    }`}>
-                    {order.status === 'pending' ? 'En Attente' :
-                      order.status === 'paid' ? 'Payé' :
-                        order.status === 'preparing' ? 'Préparation' :
-                          order.status === 'ready' ? 'Prête' : 'Terminée'}
+                  <div className="flex items-center gap-2">
+                    <span className="bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider border border-emerald-200">
+                      PAYÉ ✅
+                    </span>
+                    <div className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mobile-hidden-status ${order.status === 'paid' ? 'bg-blue-50 text-blue-700' :
+                      order.status === 'preparing' ? 'bg-orange-50 text-orange-700' :
+                        order.status === 'ready' ? 'bg-emerald-50 text-emerald-700' :
+                          order.status === 'completed' ? 'bg-gray-100 text-gray-500' :
+                            'bg-gray-50 text-gray-400'
+                      }`}>
+                      {order.status === 'pending' ? 'En Attente' :
+                        order.status === 'paid' ? 'À traiter' :
+                          order.status === 'preparing' ? 'Préparation' :
+                            order.status === 'ready' ? 'Prête' : 'Terminée'}
+                    </div>
                   </div>
                 </div>
               </div>
