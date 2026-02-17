@@ -152,8 +152,8 @@ export default function ComptePage() {
     <div className="mx-auto max-w-4xl px-5 py-10 space-y-8">
       {/* PROFIL */}
       <div className="rounded-3xl bg-white p-6 shadow ring-1 ring-black/5">
-        <h1 className="text-2xl font-bold">Mon compte</h1>
-        <p className="mt-1 text-sm text-gray-600">{user.email}</p>
+        <h1 className="text-2xl font-bold text-black">Mon compte</h1>
+        <p className="mt-1 text-sm text-black">{user.email}</p>
 
         <div className="flex gap-4 mt-6">
           <button
@@ -173,9 +173,9 @@ export default function ComptePage() {
 
       {/* SÉCURITÉ */}
       <div className="rounded-3xl bg-white p-6 shadow ring-1 ring-black/5">
-        <h2 className="text-xl font-semibold">Sécurité</h2>
+        <h2 className="text-xl font-semibold text-black">Sécurité</h2>
         <div className="mt-4 max-w-sm">
-          <label className="block text-sm font-semibold text-gray-700">Nouveau mot de passe</label>
+          <label className="block text-sm font-semibold text-black">Nouveau mot de passe</label>
           <div className="mt-2 flex gap-2">
             <input
               type="password"
@@ -239,10 +239,10 @@ export default function ComptePage() {
 
       {/* COMMANDES */}
       <div className="rounded-3xl bg-white p-6 shadow ring-1 ring-black/5">
-        <h2 className="text-xl font-semibold">Mes commandes</h2>
+        <h2 className="text-xl font-semibold text-black">Mes commandes</h2>
 
         {orders.length === 0 && (
-          <p className="mt-4 text-sm text-gray-500">
+          <p className="mt-4 text-sm text-black">
             Aucune commande pour le moment.
           </p>
         )}

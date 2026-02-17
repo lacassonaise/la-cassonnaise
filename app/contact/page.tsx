@@ -41,11 +41,11 @@ export default function ContactPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
+      <h1 className="text-3xl font-semibold tracking-tight text-black">
         Contact & Informations
       </h1>
 
-      <p className="mt-2 text-sm text-gray-600">
+      <p className="mt-2 text-sm text-black">
         Une question, une commande spéciale ou un renseignement ? Contacte-nous
         facilement.
       </p>
@@ -53,9 +53,9 @@ export default function ContactPage() {
       <div className="mt-10 grid gap-10 md:grid-cols-2">
         {/* INFOS */}
         <div className="rounded-3xl bg-white p-8 shadow-xl ring-1 ring-black/5 space-y-6">
-          <h2 className="text-xl font-semibold">Le restaurant</h2>
+          <h2 className="text-xl font-semibold text-black">Le restaurant</h2>
 
-          <div className="space-y-3 text-sm text-gray-700">
+          <div className="space-y-3 text-sm text-black">
             <div>📍 3 rue Myotis, Casson 44390</div>
             <div>⏰ 11h–14h / 18h–22h</div>
             <div>📞 09 82 28 22 14</div>
@@ -80,7 +80,7 @@ export default function ContactPage() {
 
         {/* FORMULAIRE */}
         <div className="rounded-3xl bg-white p-8 shadow-xl ring-1 ring-black/5 space-y-6">
-          <h2 className="text-xl font-semibold">Écrire un message</h2>
+          <h2 className="text-xl font-semibold text-black">Écrire un message</h2>
 
           {sent && (
             <div className="rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">

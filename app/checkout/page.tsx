@@ -218,7 +218,7 @@ export default function CheckoutPage() {
       <div className="grid gap-10 md:grid-cols-2">
         {/* RÉCAP */}
         <div className={card}>
-          <h2 className="text-xl font-semibold mb-6">
+          <h2 className="text-xl font-semibold mb-6 text-black">
             Récapitulatif
           </h2>
 
@@ -229,7 +229,7 @@ export default function CheckoutPage() {
                 <div key={it.id} className="py-3 border-b last:border-0">
                   <div className="flex justify-between items-start">
                     <div>
-                      <div className="font-medium">
+                      <div className="font-medium text-black">
                         {it.quantity} × {it.nameSnapshot}
                       </div>
 
@@ -278,13 +278,13 @@ export default function CheckoutPage() {
           </div>
 
           <div className="space-y-3 pt-4 border-t-2 border-gray-100">
-            <div className="flex justify-between text-gray-600">
+            <div className="flex justify-between text-black">
               <span>Sous-total</span>
               <span>{eur(baseTotal)}</span>
             </div>
 
             {deliveryType === "delivery" && (
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-black">
                 <span>
                   Livraison{" "}
                   {deliveryResult && deliveryResult.free && (
@@ -299,7 +299,7 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            <div className="flex justify-between font-bold text-xl pt-2">
+            <div className="flex justify-between font-bold text-xl pt-2 text-black">
               <span>Total</span>
               <span className="text-[#1F5C3A]">
                 {eur(finalTotal)}
