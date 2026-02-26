@@ -23,9 +23,14 @@ export async function POST(req: Request) {
     );
   }
 
+  console.log("Webhook triggered");
+  console.log("Event type:", event.type);
+
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const orderId = session.metadata?.orderId;
+
+    console.log("Order ID:", orderId);
 
     if (orderId) {
       const supabase = getSupabaseAdmin();
@@ -35,7 +40,7 @@ export async function POST(req: Request) {
         .from("orders")
         .update({
           status: "paid",
-          paid_at: new Date(),
+          paid_at: new Date().toISOString(),
         })
         .eq("id", orderId);
 

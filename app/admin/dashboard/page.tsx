@@ -92,7 +92,7 @@ export default function DashboardPage() {
           customizations_json
         )
       `)
-      .in("status", ["paid", "preparing", "ready", "completed"]) // Pas de "pending" -> on veut que les payées
+      .in("status", ["pending", "paid", "preparing", "ready", "completed"]) // On inclut "pending" pour validation manuelle
       .order("created_at", { ascending: false });
 
     if (data) setOrders(data as Order[]);
@@ -183,8 +183,8 @@ export default function DashboardPage() {
               ? prev.map((o) => (o.id === data.id ? (data as Order) : o))
               : [data as Order, ...prev];
 
-            // Ne garder que les commandes actives et récentes dans le state (sans pending)
-            return newList.filter(o => ["paid", "preparing", "ready", "completed"].includes(o.status));
+            // Ne garder que les commandes actives et récentes dans le state
+            return newList.filter(o => ["pending", "paid", "preparing", "ready", "completed"].includes(o.status));
           });
 
           // Notification sonore et impression auto pour nouvelle commande payée
