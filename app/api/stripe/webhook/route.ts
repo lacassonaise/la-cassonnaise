@@ -23,50 +23,80 @@ export async function POST(req: Request) {
     );
   }
 
-  console.log("Webhook triggered");
-  console.log("Event type:", event.type);
+  console.log("🔔 Webhook Stripe reçu");
+  console.log("Type d'événement:", event.type);
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const orderId = session.metadata?.orderId;
+    const userId = session.metadata?.userId;
 
-    console.log("Order ID:", orderId);
+    console.log("📦 Session de paiement terminée");
+    console.log("ID de commande (metadata):", orderId);
+    console.log("ID d'utilisateur (metadata):", userId);
 
     if (orderId) {
-      const supabase = getSupabaseAdmin();
+      try {
+        const supabase = getSupabaseAdmin();
 
-      // 1. Mettre à jour le statut de la commande
-      await supabase
-        .from("orders")
-        .update({
-          status: "paid",
-          paid_at: new Date().toISOString(),
-        })
-        .eq("id", orderId);
+        // 1. Mettre à jour le statut de la commande
+        console.log(`📝 Mise à jour de la commande ${orderId} en 'paid'...`);
+        const { error: orderError } = await supabase
+          .from("orders")
+          .update({
+            status: "paid",
+            paid_at: new Date().toISOString(),
+          })
+          .eq("id", orderId);
 
-      // 2. Créditer les points de fidélité (1€ = 1pt)
-      const amountTotal = session.amount_total || 0;
-      const pointsToAdd = Math.floor(amountTotal / 100);
-      const userId = session.metadata?.userId;
+        if (orderError) {
+          console.error("❌ Erreur lors de la mise à jour de la commande:", orderError.message);
+        } else {
+          console.log(`✅ Commande ${orderId} mise à jour avec succès.`);
+        }
 
-      if (userId && pointsToAdd > 0) {
-        // Récupérer les points actuels
-        const { data: loyalty } = await supabase
-          .from("loyalty_points")
-          .select("points")
-          .eq("user_id", userId)
-          .single();
+        // 2. Créditer les points de fidélité (1€ = 1pt)
+        const amountTotal = session.amount_total || 0;
+        const pointsToAdd = Math.floor(amountTotal / 100);
 
-        const currentPoints = loyalty?.points || 0;
+        if (userId && pointsToAdd > 0) {
+          console.log(`💎 Attribution de ${pointsToAdd} points à l'utilisateur ${userId}...`);
+          
+          // Récupérer les points actuels
+          const { data: loyalty, error: fetchLoyaltyError } = await supabase
+            .from("loyalty_points")
+            .select("points")
+            .eq("user_id", userId)
+            .single();
 
-        await supabase
-          .from("loyalty_points")
-          .upsert({
-            user_id: userId,
-            points: currentPoints + pointsToAdd,
-            updated_at: new Date()
-          }, { onConflict: 'user_id' });
+          if (fetchLoyaltyError && fetchLoyaltyError.code !== 'PGRST116') {
+            console.error("❌ Erreur lors de la récupération des points:", fetchLoyaltyError.message);
+          }
+
+          const currentPoints = loyalty?.points || 0;
+          console.log(`Points actuels: ${currentPoints}, nouveaux points: ${currentPoints + pointsToAdd}`);
+
+          const { error: upsertError } = await supabase
+            .from("loyalty_points")
+            .upsert({
+              user_id: userId,
+              points: currentPoints + pointsToAdd,
+              updated_at: new Date().toISOString()
+            }, { onConflict: 'user_id' });
+
+          if (upsertError) {
+            console.error("❌ Erreur lors de l'attribution des points:", upsertError.message);
+          } else {
+            console.log("✅ Points de fidélité crédités.");
+          }
+        } else {
+          console.log("ℹ️ Pas de userId ou de points à ajouter (métadonnées manquantes ou montant insuffisant).");
+        }
+      } catch (dbError: any) {
+        console.error("🔥 Erreur critique lors des opérations de base de données:", dbError.message);
       }
+    } else {
+      console.warn("⚠️ Attention: orderId manquant dans les métadonnées de la session Stripe.");
     }
   }
 
