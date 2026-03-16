@@ -84,9 +84,10 @@ export async function POST(req: Request) {
     console.log("🔗 Site URL used:", siteUrl);
 
     console.log("🧮 création session stripe");
-    const session = await stripe.checkout.sessions.create({
+    const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       mode: "payment",
       payment_method_types: ["card"],
+      customer_email: body.email, // <--- AJOUTÉ
       line_items: [
         {
           quantity: 1,
@@ -103,7 +104,9 @@ export async function POST(req: Request) {
       },
       success_url: `${siteUrl}/success?orderId=${order.id}`,
       cancel_url: `${siteUrl}/checkout`,
-    });
+    };
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     console.log("✅ Session Stripe créée avec succès:", session.id);
     console.log("🔗 URL de redirection:", session.url);

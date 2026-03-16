@@ -26,7 +26,11 @@ export default function CheckoutPage() {
     useState<"pickup" | "delivery">("pickup");
 
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
+  
+  // Debug to verify latest code is active in production
+  const CODE_VERSION = "2026-03-16-1550"; 
 
   const [address, setAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
@@ -34,6 +38,19 @@ export default function CheckoutPage() {
 
   const [isCalculatingDistance, setIsCalculatingDistance] = useState(false);
   const [distanceKm, setDistanceKm] = useState<number | null>(null);
+
+  /* =====================
+     AUTH EFFECT (To pre-fill email)
+  ===================== */
+  useEffect(() => {
+    async function loadUser() {
+      const { data } = await supabase.auth.getUser();
+      if (data?.user?.email) {
+        setEmail(data.user.email);
+      }
+    }
+    loadUser();
+  }, []);
 
   /* =====================
      DISTANCE CALCULATION
@@ -131,6 +148,12 @@ export default function CheckoutPage() {
         return;
       }
 
+      if (!email) {
+        console.warn("⚠️ Email manquant");
+        alert("Une adresse email est requise pour le paiement");
+        return;
+      }
+
       console.log("👤 Vérification de l'utilisateur...");
       let currentUserId = null;
       try {
@@ -149,6 +172,7 @@ export default function CheckoutPage() {
         deliveryFree: (deliveryResult as any)?.free ?? false,
         distanceKm: distanceKm,
         phone,
+        email, // <--- AJOUTÉ
         note,
         address,
         city,
@@ -343,6 +367,20 @@ export default function CheckoutPage() {
                 className="w-full rounded-xl border-gray-200 bg-gray-50 p-4 focus:bg-white focus:ring-[#1F5C3A]"
               />
             </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Email (requis pour le paiement)</label>
+              <input
+                type="email"
+                placeholder="votre@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-xl border-gray-200 bg-gray-50 p-4 focus:bg-white focus:ring-[#1F5C3A]"
+                required
+              />
+            </div>
+            
+            <div className="text-[8px] text-gray-200 text-right">v.{CODE_VERSION}</div>
 
             {deliveryType === "delivery" && (
               <div className="space-y-4 animate-in fade-in slide-in-from-top-2">
