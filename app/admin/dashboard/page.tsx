@@ -71,7 +71,7 @@ export default function DashboardPage() {
   ===================== */
 
   async function loadOrders() {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("orders")
       .select(`
         id,
