@@ -10,21 +10,35 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const sig = req.headers.get("stripe-signature")!;
+  const sig = req.headers.get("stripe-signature");
+
+  if (!sig) {
+    console.warn("⚠️ Requête webhook sans signature Stripe reçue.");
+    return NextResponse.json({ error: "No signature" }, { status: 400 });
+  }
+
+  if (!endpointSecret) {
+    console.error("❌ STRIPE_WEBHOOK_SECRET est manquant dans les variables d'environnement.");
+    return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
+  }
 
   let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
   } catch (err: any) {
+    console.error(`❌ Erreur de validation de signature Stripe: ${err.message}`);
+    console.error(`Secret utilisé: ${endpointSecret.slice(0, 10)}...`);
+    console.error(`Signature reçue: ${sig.slice(0, 10)}...`);
     return NextResponse.json(
       { error: `Webhook Error: ${err.message}` },
       { status: 400 }
     );
   }
 
-  console.log("🔔 Webhook Stripe reçu");
+  console.log("🔔 Webhook Stripe reçu avec succès");
   console.log("Type d'événement:", event.type);
+  console.log("ID de l'événement:", event.id);
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
@@ -98,6 +112,8 @@ export async function POST(req: Request) {
     } else {
       console.warn("⚠️ Attention: orderId manquant dans les métadonnées de la session Stripe.");
     }
+  } else {
+    console.log(`ℹ️ Événement type ${event.type} ignoré (seul checkout.session.completed est traité ici).`);
   }
 
   return NextResponse.json({ received: true });

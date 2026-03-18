@@ -72,6 +72,11 @@ export default function RootLayout({
         {/* HEADER */}
         <Header />
 
+        {/* CLOSURE BANNER */}
+        <div className="bg-red-600 text-white text-center py-3 px-4 text-sm font-bold uppercase tracking-wider relative z-50">
+          🚨 Le restaurant est exceptionnellement fermé du 17/03 au 10/04 inclus pour cause de travaux. Les commandes sont suspendues. 🚨
+        </div>
+
         {/* PROMO BAR */}
         <PromoBar />
 

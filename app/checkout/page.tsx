@@ -447,13 +447,21 @@ export default function CheckoutPage() {
             </div>
           </div>
 
+          <div className="w-full rounded-2xl bg-red-50 border border-red-200 p-4 text-center mb-2">
+            <p className="text-red-700 font-bold">
+              Le restaurant est fermé du 17/03 au 10/04 inclus pour travaux.
+            </p>
+            <p className="text-sm text-red-600 mt-1">
+              Les commandes en ligne sont temporairement désactivées. 
+            </p>
+          </div>
           <button
             type="button"
-            onClick={continueToPayment}
-            className="w-full rounded-2xl bg-[#1F5C3A] py-5 text-white font-bold text-lg shadow-lg shadow-[#1F5C3A]/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
+            disabled
+            className="w-full rounded-2xl bg-gray-400 py-5 text-white font-bold text-lg cursor-not-allowed flex items-center justify-center gap-3"
             style={{ position: 'relative', zIndex: 100 }}
           >
-            CONFIRMER ET PAYER ({eur(finalTotal || 0)})
+            COMMANDES SUSPENDUES
           </button>
         </div>
       </div>

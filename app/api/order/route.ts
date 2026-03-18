@@ -100,7 +100,7 @@ export async function POST(req: Request) {
       ],
       metadata: {
         orderId: order.id,
-        userId: userId ?? ""
+        userId: String(userId ?? "")
       },
       success_url: `${siteUrl}/success?orderId=${order.id}`,
       cancel_url: `${siteUrl}/checkout`,
