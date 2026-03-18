@@ -32,22 +32,12 @@ function isOpenNow() {
 }
 
 function OpenBadge() {
-  const open = isOpenNow();
-
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
-        open
-          ? "bg-green-500/15 text-green-400"
-          : "bg-red-500/15 text-red-400"
-      }`}
+      className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-red-500/15 text-red-400"
     >
-      <span
-        className={`h-2 w-2 rounded-full ${
-          open ? "bg-green-400" : "bg-red-400"
-        }`}
-      />
-      {open ? "Ouvert maintenant" : "Fermé"}
+      <span className="h-2 w-2 rounded-full bg-red-400" />
+      Fermé (jusqu'au 10/04 inclus)
     </span>
   );
 }
