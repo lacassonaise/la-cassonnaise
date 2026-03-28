@@ -135,17 +135,18 @@ export default function CartDrawer() {
           </div>
 
           <div className="mt-4 flex flex-col gap-3">
-            <div className="text-center text-red-600 font-bold text-xs bg-red-50 p-2 rounded-xl border border-red-100 italic">
-              Les commandes sont suspendues pendant la fermeture (jusqu'au 10 Avril inclus).
-            </div>
             <div className="flex gap-3">
-              <button onClick={cart.clear} className="w-1/2 bg-amber-600/10 text-center text-amber-700 rounded-xl py-3">
+              <button onClick={cart.clear} className="w-1/3 rounded-xl bg-gray-100 py-3 text-sm font-semibold text-gray-600 transition-colors hover:bg-gray-200">
                 Vider
               </button>
 
-              <div className="w-1/2 bg-gray-300 text-center text-gray-500 rounded-xl py-3 cursor-not-allowed opacity-70">
-                Fermé
-              </div>
+              <Link 
+                href="/checkout" 
+                onClick={() => setOpen(false)}
+                className="flex-1 rounded-xl bg-[#1F5C3A] py-3 text-center text-sm font-bold text-white shadow-xl shadow-green-900/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Commander
+              </Link>
             </div>
           </div>
         </div>
