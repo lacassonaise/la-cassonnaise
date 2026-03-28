@@ -108,9 +108,10 @@ export default function Footer() {
             <div className="overflow-hidden rounded-xl border border-white/10">
               <iframe
                 title="Localisation Cassonnaise"
-                src="https://www.google.com/maps?q=3%20Rue%20Myotis%20Casson%2044390&output=embed"
+                src="https://maps.google.com/maps?q=3+Rue+Myotis,+Casson,+44390,+France&output=embed&hl=fr&z=16"
                 loading="lazy"
                 className="h-48 w-full border-0"
+                allowFullScreen
               />
             </div>
           </Accordion>
@@ -137,9 +138,10 @@ export default function Footer() {
           <div className="mt-3 overflow-hidden rounded-xl border border-white/10">
             <iframe
               title="Localisation Cassonnaise"
-              src="https://www.google.com/maps?q=3%20Rue%20Myotis%20Casson%2044390&output=embed"
+              src="https://maps.google.com/maps?q=3+Rue+Myotis,+Casson,+44390,+France&output=embed&hl=fr&z=16"
               loading="lazy"
               className="h-48 w-full border-0"
+              allowFullScreen
             />
           </div>
         </div>
