@@ -92,7 +92,7 @@ export default function DashboardPage() {
           customizations_json
         )
       `)
-      .in("status", ["pending", "paid", "preparing", "ready", "completed"]) // Inclure "pending" pour rapprochement manuel
+      .in("status", ["paid", "preparing", "ready", "completed"]) // Exclure "pending" car on ne veut que le payé
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -186,8 +186,8 @@ export default function DashboardPage() {
               ? prev.map((o) => (o.id === data.id ? (data as Order) : o))
               : [data as Order, ...prev];
 
-            // Ne garder que les commandes actives et récentes dans le state (sans pending)
-            return newList.filter(o => ["pending", "paid", "preparing", "ready", "completed"].includes(o.status));
+            // Ne garder que les commandes payées et actives dans le state
+            return newList.filter(o => ["paid", "preparing", "ready", "completed"].includes(o.status));
           });
 
           // Notification sonore et impression auto pour nouvelle commande payée
@@ -363,27 +363,19 @@ export default function DashboardPage() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                   </button>
                   <div className="flex items-center gap-2">
-                    {order.status !== 'pending' ? (
                       <span className="bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider border border-emerald-200">
                         PAYÉ ✅
                       </span>
-                    ) : (
-                      <span className="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider border border-amber-200 animate-pulse">
-                        ATTENTE PAIEMENT ⏳
-                      </span>
-                    )}
                     <div className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mobile-hidden-status ${
-                      order.status === 'pending' ? 'bg-amber-100 text-amber-700 border border-amber-200' :
                       order.status === 'paid' ? 'bg-blue-50 text-blue-700' :
                       order.status === 'preparing' ? 'bg-orange-50 text-orange-700' :
                         order.status === 'ready' ? 'bg-emerald-50 text-emerald-700' :
                           order.status === 'completed' ? 'bg-gray-100 text-gray-500' :
                             'bg-gray-50 text-gray-400'
                       }`}>
-                      {order.status === 'pending' ? 'En Attente' :
-                        order.status === 'paid' ? 'À traiter' :
-                          order.status === 'preparing' ? 'Préparation' :
-                            order.status === 'ready' ? 'Prête' : 'Terminée'}
+                      {order.status === 'paid' ? 'À traiter' :
+                        order.status === 'preparing' ? 'Préparation' :
+                          order.status === 'ready' ? 'Prête' : 'Terminée'}
                     </div>
                   </div>
                 </div>
@@ -486,52 +478,44 @@ export default function DashboardPage() {
                 )}
 
                 {view === "kitchen" && (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex gap-3">
-                      {order.status === "pending" && (
-                        <button
-                          onClick={() => updateStatus(order.id, "paid")}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
-                        >
-                          Confirmer Paiement
-                        </button>
-                      )}
-                      {order.status === "paid" && (
-                        <button
-                          onClick={() => updateStatus(order.id, "preparing")}
-                          className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-orange-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
-                        >
-                          Commencer
-                        </button>
-                      )}
-                      {order.status === "preparing" && (
-                        <button
-                          onClick={() => updateStatus(order.id, "ready")}
-                          className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
-                        >
-                          Prête
-                        </button>
-                      )}
-                      {order.status === "ready" && (
+                    <div className="flex flex-col gap-2">
+                      <div className="flex gap-3">
+                        {order.status === "paid" && (
+                          <button
+                            onClick={() => updateStatus(order.id, "preparing")}
+                            className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-orange-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                          >
+                            Commencer
+                          </button>
+                        )}
+                        {order.status === "preparing" && (
+                          <button
+                            onClick={() => updateStatus(order.id, "ready")}
+                            className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                          >
+                            Prête
+                          </button>
+                        )}
+                        {order.status === "ready" && (
+                          <button
+                            onClick={() => updateStatus(order.id, "completed")}
+                            className="flex-1 bg-gray-900 hover:bg-black text-white font-black py-4 rounded-2xl shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                          >
+                            Terminer
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Shortcut to finish directly if already preparing or paid */}
+                      {(order.status === "paid" || order.status === "preparing") && (
                         <button
                           onClick={() => updateStatus(order.id, "completed")}
-                          className="flex-1 bg-gray-900 hover:bg-black text-white font-black py-4 rounded-2xl shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider text-xs"
+                          className="w-full bg-gray-100 hover:bg-gray-200 text-gray-500 font-bold py-2 rounded-xl transition-all text-[10px] uppercase tracking-widest"
                         >
-                          Terminer
+                          Terminer Directement
                         </button>
                       )}
                     </div>
-
-                    {/* Shortcut to finish directly if already preparing or paid */}
-                    {(order.status === "paid" || order.status === "preparing" || order.status === "pending") && (
-                      <button
-                        onClick={() => updateStatus(order.id, "completed")}
-                        className="w-full bg-gray-100 hover:bg-gray-200 text-gray-500 font-bold py-2 rounded-xl transition-all text-[10px] uppercase tracking-widest"
-                      >
-                        Terminer Directement
-                      </button>
-                    )}
-                  </div>
                 )}
               </div>
             </div>

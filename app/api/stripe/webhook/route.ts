@@ -55,18 +55,22 @@ export async function POST(req: Request) {
 
         // 1. Mettre à jour le statut de la commande
         console.log(`📝 Mise à jour de la commande ${orderId} en 'paid'...`);
-        const { error: orderError } = await supabase
+        const { data: updateData, error: orderError } = await supabase
           .from("orders")
           .update({
             status: "paid",
             paid_at: new Date().toISOString(),
           })
-          .eq("id", orderId);
+          .eq("id", orderId)
+          .select();
 
         if (orderError) {
           console.error("❌ Erreur lors de la mise à jour de la commande:", orderError.message);
+          console.error("Détails de l'erreur:", orderError);
+        } else if (!updateData || updateData.length === 0) {
+          console.warn(`⚠️ Commande ${orderId} non trouvée dans la base de données après update.`);
         } else {
-          console.log(`✅ Commande ${orderId} mise à jour avec succès.`);
+          console.log(`✅ Commande ${orderId} mise à jour avec succès en 'paid'.`, updateData[0]);
         }
 
         // 2. Créditer les points de fidélité (1€ = 1pt)
