@@ -108,7 +108,7 @@ export default function Footer() {
             <div className="overflow-hidden rounded-xl border border-white/10">
               <iframe
                 title="Localisation Cassonnaise"
-                src="https://maps.google.com/maps?q=3+Rue+Myotis,+Casson,+44390,+France&output=embed&hl=fr&z=16"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-1.5683%2C47.3817%2C-1.5483%2C47.3917&layer=mapnik&marker=47.3867%2C-1.5583"
                 loading="lazy"
                 className="h-48 w-full border-0"
                 allowFullScreen
@@ -138,7 +138,7 @@ export default function Footer() {
           <div className="mt-3 overflow-hidden rounded-xl border border-white/10">
             <iframe
               title="Localisation Cassonnaise"
-              src="https://maps.google.com/maps?q=3+Rue+Myotis,+Casson,+44390,+France&output=embed&hl=fr&z=16"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-1.5683%2C47.3817%2C-1.5483%2C47.3917&layer=mapnik&marker=47.3867%2C-1.5583"
               loading="lazy"
               className="h-48 w-full border-0"
               allowFullScreen
